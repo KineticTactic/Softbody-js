@@ -10,68 +10,70 @@ let columns = 10,
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
 
+    console.log(height / 50);
     for (let i = 0; i < columns; i++) {
         points[i] = [];
         for (let j = 0; j < rows; j++) {
-            points[i][j] = new Point(createVector(i * 20 + 200, j * 20 - 400));
+            points[i][j] = new Point(createVector(i * (height / 50) + (width / 20) * 2, j * (height / 50) - (width / 20) * 4));
         }
     }
 
     for (let j = 0; j < rows; j++) {
         for (let i = 0; i < columns - 1; i++) {
-            springs.push(new Spring(points[i][j], points[i + 1][j], 20));
+            springs.push(new Spring(points[i][j], points[i + 1][j], height / 50));
         }
     }
 
     for (let i = 0; i < columns; i++) {
         for (let j = 0; j < rows - 1; j++) {
-            springs.push(new Spring(points[i][j], points[i][j + 1], 20));
+            springs.push(new Spring(points[i][j], points[i][j + 1], height / 50));
         }
     }
 
     for (let i = 0; i < columns - 1; i++) {
         for (let j = 0; j < rows - 1; j++) {
-            springs.push(new Spring(points[i][j], points[i + 1][j + 1], Math.sqrt(800)));
+            springs.push(new Spring(points[i][j], points[i + 1][j + 1], Math.sqrt((height / 50) ** 2 * 2)));
         }
     }
+    console.log(Math.sqrt((height / 50) ** 2 * 2));
 
     for (let i = columns - 1; i >= 1; i--) {
         for (let j = 0; j < rows - 1; j++) {
-            springs.push(new Spring(points[i][j], points[i - 1][j + 1], Math.sqrt(800)));
+            springs.push(new Spring(points[i][j], points[i - 1][j + 1], Math.sqrt((height / 50) ** 2 * 2)));
         }
     }
 
     poly1 = new Polygon();
-    poly1.addVertex(100, 800);
-    poly1.addVertex(1900, 800);
-    poly1.addVertex(1900, 900);
-    poly1.addVertex(100, 900);
+    poly1.addVertex(width / 20, (height / 10) * 9);
+    poly1.addVertex(width - width / 20, (height / 10) * 9);
+    poly1.addVertex(width - width / 20, height);
+    poly1.addVertex(width / 20, height);
     poly1.calculateAABB();
 
     poly2 = new Polygon();
-    poly2.addVertex(100, 100);
-    poly2.addVertex(500, 300);
-    poly2.addVertex(100, 300);
+    poly2.addVertex(width / 20, height / 10);
+    poly2.addVertex((width / 20) * 5, (height / 10) * 3);
+    poly2.addVertex(width / 20, (height / 10) * 3);
     poly2.calculateAABB();
 
     poly3 = new Polygon();
-    poly3.addVertex(1200, 400);
-    poly3.addVertex(1200, 600);
-    poly3.addVertex(900, 600);
+    poly3.addVertex((width / 20) * 12, (height / 10) * 4);
+    poly3.addVertex((width / 20) * 12, (height / 10) * 6);
+    poly3.addVertex((width / 20) * 9, (height / 10) * 6);
     poly3.calculateAABB();
 
     poly4 = new Polygon();
-    poly4.addVertex(100, 800);
-    poly4.addVertex(300, 800);
-    poly4.addVertex(300, 500);
-    poly4.addVertex(100, 500);
+    poly4.addVertex(width / 20, (height / 10) * 9);
+    poly4.addVertex((width / 20) * 2, (height / 10) * 9);
+    poly4.addVertex((width / 20) * 2, (height / 10) * 5);
+    poly4.addVertex(width / 20, (height / 10) * 5);
     poly4.calculateAABB();
 
     poly5 = new Polygon();
-    poly5.addVertex(1800, 800);
-    poly5.addVertex(1900, 800);
-    poly5.addVertex(1900, 500);
-    poly5.addVertex(1800, 500);
+    poly5.addVertex((width / 20) * 18, (height / 10) * 9);
+    poly5.addVertex((width / 20) * 19, (height / 10) * 9);
+    poly5.addVertex((width / 20) * 19, (height / 10) * 5);
+    poly5.addVertex((width / 20) * 18, (height / 10) * 5);
     poly5.calculateAABB();
 
     lastFrame = millis();
@@ -129,7 +131,7 @@ function mousePressed() {
     for (let row of points) {
         for (let p of row) {
             let difference = p5.Vector.sub(p.pos, createVector(mouseX, mouseY));
-            if (difference.magSq() <= 200 * 200) {
+            if (difference.magSq() <= ((width / 20) * 2) ** 2) {
                 p.isBeingDragged = true;
                 p.dragOffsetVector = difference;
             }

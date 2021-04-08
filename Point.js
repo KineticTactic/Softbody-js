@@ -7,6 +7,7 @@ class Point {
         this.collidedWith = [];
         this.isBeingDragged = false;
         this.dragOffsetVector = createVector();
+        this.radius = height / 200 + 1;
     }
 
     collide(polygons) {
@@ -46,12 +47,11 @@ class Point {
         for (let i = 0; i < points.length; i++) {
             for (let j = 0; j < points[i].length; j++) {
                 if (i !== indexI || j !== indexJ || !this.collidedWith.includes([i, j])) {
-                    let radius = 6;
                     let other = points[i][j];
                     let differenceVector = p5.Vector.sub(this.pos, other.pos);
                     let distance = differenceVector.mag();
-                    if (distance < radius * 2 && distance !== 0) {
-                        let penetrationDepth = radius * 2 - distance;
+                    if (distance < this.radius * 2 && distance !== 0) {
+                        let penetrationDepth = this.radius * 2 - distance;
                         let normalVector = p5.Vector.normalize(differenceVector);
 
                         this.pos = p5.Vector.add(this.pos, p5.Vector.mult(normalVector, penetrationDepth));
@@ -83,7 +83,7 @@ class Point {
 
     render() {
         stroke(255);
-        strokeWeight(10);
+        strokeWeight(this.radius * 2);
         point(this.pos.x, this.pos.y);
 
         if (this.isBeingDragged) {
