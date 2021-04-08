@@ -2,7 +2,7 @@ class Spring {
     constructor(a, b, restLength) {
         this.a = a;
         this.b = b;
-        this.stiffness = 50;
+        this.stiffness = 40;
         this.restLength = restLength;
         this.damping = 0.5;
     }
