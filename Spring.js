@@ -23,7 +23,7 @@ class Spring {
     }
 
     render() {
-        stroke(255, 255, 0);
+        stroke(0, 200, 255);
         strokeWeight(2);
         line(this.a.pos.x, this.a.pos.y, this.b.pos.x, this.b.pos.y);
     }
