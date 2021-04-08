@@ -125,6 +125,11 @@ function draw() {
     poly3.render();
     poly4.render();
     poly5.render();
+
+    textSize(32);
+    fill(255);
+    noStroke();
+    text("Fun Fact: it is draggable", width - 350, 40);
 }
 
 function mousePressed() {
