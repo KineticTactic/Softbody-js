@@ -7,6 +7,9 @@ let lastFrame;
 let columns = 10,
     rows = 15;
 
+let funFactAlphaDecreasing = false;
+let funFactAlpha = 255;
+
 function setup() {
     createCanvas(window.innerWidth, window.innerHeight);
 
@@ -77,10 +80,6 @@ function setup() {
     poly5.calculateAABB();
 
     lastFrame = millis();
-
-    // a = new Point(createVector(200, 100));
-    // b = new Point(createVector(200, 200));
-    // spring = new Spring(a, b, 20);
 }
 
 function draw() {
@@ -126,8 +125,12 @@ function draw() {
     poly4.render();
     poly5.render();
 
+    if (funFactAlphaDecreasing && funFactAlpha > 0) {
+        funFactAlpha -= 5;
+    }
     textSize(32);
-    fill(255);
+    fill(255, funFactAlpha);
+    console.log(funFactAlpha);
     noStroke();
     text("Fun Fact: it is draggable", width - 350, 40);
 }
@@ -142,6 +145,10 @@ function mousePressed() {
             }
         }
     }
+
+    setTimeout(() => {
+        funFactAlphaDecreasing = true;
+    }, 2000);
 }
 
 function mouseReleased() {
